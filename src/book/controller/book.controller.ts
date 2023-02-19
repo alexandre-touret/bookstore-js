@@ -1,16 +1,19 @@
 import express, { Request, Response } from "express";
-import * as BookService from "../service/book.service";
 import { Book } from "../model/book.interface";
+import BookService from "../service/book.service";
 
 class BookController {
+
+    constructor(private readonly bookService: BookService){}
+
     public async get(req: Request, res: Response) {
-        const books = await BookService.findAll();
+        const books = await this.bookService.findAll();
         res.status(200).send(books);  
     }
     
     public async post(req: Request, res: Response){
         const book: Book = req.body;
-        let newBook = await BookService.createBook(book);
+        let newBook = await this.bookService.createBook(book);
         res.sendStatus(201);
     }
 }
