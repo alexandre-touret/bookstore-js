@@ -1,25 +1,28 @@
 import BookService from "./book.service";
 import pool from "../../db/dbconnector"
+import {Sequelize} from "sequelize-typescript";
+import {Book} from "../model/book";
 
-jest.mock('pg', () => {
-    const mPool = {
-      connect: function () {
-        return { query: jest.fn() };
-      },
-      query: jest.fn(),
-      end: jest.fn(),
-      on: jest.fn(),
-    };
-    return { Pool: jest.fn(() => mPool) };
-  });
+
+const sequelize = new Sequelize({
+    database: 'some_db',
+    dialect: 'sqlite',
+    username: 'root',
+    password: '',
+    storage: ':memory:',
+    models: [Book], // or [Player, Team],
+});
 
 
 describe("BookService", () => {
+    beforeAll(async () => {
+        await sequelize.sync({force: true});
+    })
     test("should return empty array", async () => {
-          describe("findAll", () => {
         const bookService = new BookService();
-        const books =  bookService.findAll();
-        expect(books).toEqual([]);
-      });
+        const books = await bookService.findAll().then(value => {
+            expect(value).toEqual([])
+        });
+
     });
-  });
+});

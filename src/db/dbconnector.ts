@@ -1,10 +1,11 @@
-import { Pool } from 'pg';
+import { Sequelize } from 'sequelize-typescript';
+import {Book} from "../book/model/book";
 
-const pool = new Pool ({
-    max: 20,
-    //connectionString: 'postgres://root:newPassword@localhost:port/dbname',
-    connectionString: 'postgres://book:book@localhost:5432/books_database',
-    idleTimeoutMillis: 30000
+const sequelize = new Sequelize({
+    database: 'books_database',
+    dialect: 'postgres',
+    username: 'book',
+    password: 'book',
+    models: [Book], // or [Player, Team],
 });
-
-export default pool;
+export  default sequelize;
