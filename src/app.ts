@@ -6,7 +6,7 @@ dotenv.config();
 const port = parseInt(process.env.PORT || '4000');
 
 
-sequelize.sync({force: false});
+sequelize.sync({force: true});
 
 const starter = new server().start(port)
   .then(port => console.log(`Running on port ${port}`))

@@ -1,9 +1,9 @@
 import {Column, DataType, Model, PrimaryKey, Table} from "sequelize-typescript";
 
 @Table
-export class Book extends Model {
+export class Book extends Model<Book> {
 
-    @Column({primaryKey: true})
+    @Column({primaryKey: true,autoIncrement:true})
     id: number;
     @Column
     title: string;
